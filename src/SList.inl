@@ -28,12 +28,6 @@ SList<T>::~SList()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement destructor
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  while ( m_head_p != nullptr ) {
-    Node* temp_p = m_head_p->next_p;
-    delete m_head_p;
-    m_head_p = temp_p;
-  }
 }
 
 //------------------------------------------------------------------------
@@ -74,8 +68,6 @@ void SList<T>::swap( SList<T>& lst )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement swap
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  ece2400::swap( m_head_p, lst.m_head_p );
 }
 
 //------------------------------------------------------------------------
@@ -88,10 +80,7 @@ SList<T>& SList<T>::operator=( const SList<T>& lst )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement operator=
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  SList tmp( lst ); // create temporary copy of given list
-  swap( tmp );      // swap this list with temporary list
-  return *this;     // destructor called for temporary list
+  return *this;
 }
 
 //------------------------------------------------------------------------
@@ -104,11 +93,6 @@ void SList<T>::push_front( const T& v )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement push_front
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  Node* new_node_p   = new Node;
-  new_node_p->value  = v;
-  new_node_p->next_p = m_head_p;
-  m_head_p           = new_node_p;
 }
 
 //------------------------------------------------------------------------
@@ -138,12 +122,7 @@ const T& SList<T>::at( int idx ) const
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement at
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
-    curr_p = curr_p->next_p;
-
-  return curr_p->value;
+  return m_head_p->value;
 }
 
 //------------------------------------------------------------------------
@@ -156,12 +135,7 @@ T& SList<T>::at( int idx )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement at
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
-    curr_p = curr_p->next_p;
-
-  return curr_p->value;
+  return m_head_p->value;
 }
 
 //------------------------------------------------------------------------
@@ -180,10 +154,6 @@ void SList<T>::reverse_v1()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v1
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  int n = size();
-  for ( int i = 0; i < n/2; i++ )
-    ece2400::swap( at(i), at((n-1)-i) );
 }
 
 //------------------------------------------------------------------------
@@ -202,19 +172,6 @@ void SList<T>::reverse_v2()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v2
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  // Step 1. Create temporary list
-  SList<T> lst;
-
-  // Step 2. Push front all values from this list onto temporary list
-  Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
-    lst.push_front( curr_p->value );
-    curr_p = curr_p->next_p;
-  }
-
-  // Step 3. Swap this list with temporary list
-  swap( lst );
 }
 
 //------------------------------------------------------------------------
