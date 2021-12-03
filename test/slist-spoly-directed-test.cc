@@ -1,11 +1,12 @@
 //========================================================================
 // slist-spoly-directed-test.cc
 //========================================================================
-// This file contains directed tests for static polymorphic list.
+// This file contains directed tests for SList<T> functions.
 
-#include "SListSpoly.h"
-#include "utst.h"
-#include <complex>
+#include <stdlib.h>
+
+#include "ece2400-stdlib.h"
+#include "SList.h"
 
 //------------------------------------------------------------------------
 // test_case_1_push_front
@@ -16,88 +17,167 @@ void test_case_1_push_front()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListSpoly<int> lst;
+  SList<int> lst;
   lst.push_front(12);
   lst.push_front(11);
   lst.push_front(10);
 
+  ECE2400_CHECK_INT_EQ( lst.size(), 3 );
+
   int ref[] = { 10, 11, 12 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst.at(i), ref[i] );
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), ref[i] );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_2_reverse
+// test_case_2_push_front_longer
 //------------------------------------------------------------------------
-// A simple test case that tests reverse
+// A test case that tests push front with more data.
 
-void test_case_2_reverse()
+void test_case_2_push_front_longer()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListSpoly<int> lst;
-  lst.push_front(12);
-  lst.push_front(11);
-  lst.push_front(10);
-  lst.reverse();
+  SList<int> lst;
+  for ( int i = 0; i < 12; i++ )
+    lst.push_front(i);
 
-  int ref[] = { 12, 11, 10 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst.at(i), ref[i] );
+  ECE2400_CHECK_INT_EQ( lst.size(), 12 );
+
+  for ( int i = 0; i < 12; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), 12-i-1 );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_3_copy
+// test_case_3_reverse_v1
+//------------------------------------------------------------------------
+// A simple test case that tests reverse v1
+
+void test_case_3_reverse_v1()
+{
+  std::printf( "\n%s\n", __func__ );
+
+  SList<int> lst;
+  lst.push_front(12);
+  lst.push_front(11);
+  lst.push_front(10);
+  lst.reverse_v1();
+
+  ECE2400_CHECK_INT_EQ( lst.size(), 3 );
+
+  int ref[] = { 12, 11, 10 };
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), ref[i] );
+  }
+}
+
+//------------------------------------------------------------------------
+// test_case_4_reverse_longer_v1
+//------------------------------------------------------------------------
+// A test case that tests reverse v1 with more data.
+
+void test_case_4_reverse_longer_v1()
+{
+  std::printf( "\n%s\n", __func__ );
+
+  SList<int> lst;
+  for ( int i = 0; i < 12; i++ )
+    lst.push_front(i);
+  lst.reverse_v1();
+
+  ECE2400_CHECK_INT_EQ( lst.size(), 12 );
+
+  for ( int i = 0; i < 12; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), i );
+  }
+}
+
+//------------------------------------------------------------------------
+// test_case_5_reverse_reverse_v1
+//------------------------------------------------------------------------
+// A test case that calls reverse twice
+
+void test_case_5_reverse_reverse_v1()
+{
+  std::printf( "\n%s\n", __func__ );
+
+  SList<int> lst;
+  for ( int i = 0; i < 12; i++ )
+    lst.push_front(i);
+  lst.reverse_v1();
+  lst.reverse_v1();
+
+  ECE2400_CHECK_INT_EQ( lst.size(), 12 );
+
+  for ( int i = 0; i < 12; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), 12-i-1 );
+  }
+}
+
+//------------------------------------------------------------------------
+// test_case_6_copy
 //------------------------------------------------------------------------
 // A simple test case that tests copying lists
 
-void test_case_3_copy()
+void test_case_6_copy()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListSpoly<int> lst0;
+  SList<int> lst0;
   lst0.push_front(12);
   lst0.push_front(11);
   lst0.push_front(10);
+
+  ECE2400_CHECK_INT_EQ( lst0.size(), 3 );
 
   // Call the copy constructor
 
-  SListSpoly<int> lst1 = lst0;
+  SList<int> lst1 = lst0;
 
   // Reverse list 0 to make sure it does not change list 1
 
-  lst0.reverse();
+  lst0.reverse_v1();
 
   // Verify list 0
 
+  ECE2400_CHECK_INT_EQ( lst0.size(), 3 );
+
   int ref0[] = { 12, 11, 10 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst0.at(i), ref0[i] );
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst0.at(i), ref0[i] );
+  }
 
   // Verify list 1
 
+  ECE2400_CHECK_INT_EQ( lst1.size(), 3 );
+
   int ref1[] = { 10, 11, 12 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst1.at(i), ref1[i] );
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst1.at(i), ref1[i] );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_4_assign
+// test_case_7_assign
 //------------------------------------------------------------------------
 // A simple test case that tests assigning lists
 
-void test_case_4_assign()
+void test_case_7_assign()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListSpoly<int> lst0;
+  SList<int> lst0;
   lst0.push_front(12);
   lst0.push_front(11);
   lst0.push_front(10);
 
+  ECE2400_CHECK_INT_EQ( lst0.size(), 3 );
+
   // Call the default constructor
 
-  SListSpoly<int> lst1;
+  SList<int> lst1;
 
   // Call the assignment operator
 
@@ -105,133 +185,121 @@ void test_case_4_assign()
 
   // Reverse list 0 to make sure it does not change list 1
 
-  lst0.reverse();
+  lst0.reverse_v1();
 
   // Verify list 0
 
+  ECE2400_CHECK_INT_EQ( lst0.size(), 3 );
+
   int ref0[] = { 12, 11, 10 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst0.at(i), ref0[i] );
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst0.at(i), ref0[i] );
+  }
 
   // Verify list 1
 
+  ECE2400_CHECK_INT_EQ( lst1.size(), 3 );
+
   int ref1[] = { 10, 11, 12 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst1.at(i), ref1[i] );
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst1.at(i), ref1[i] );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_5_assign_self
+// test_case_8_self_assign
 //------------------------------------------------------------------------
-// A simple test case that tests self assignment.
+// A corner test case to check self assignment works.
 
-void test_case_5_assign_self()
+void test_case_8_self_assign()
 {
   std::printf( "\n%s\n", __func__ );
 
-  // Create two lists
+  SList<int> lst;
+  lst.push_front(12);
+  lst.push_front(11);
+  lst.push_front(10);
 
-  SListSpoly<int> lst0;
-  lst0.push_front(12);
-  lst0.push_front(11);
-  lst0.push_front(10);
-
-  SListSpoly<int> lst1;
-  lst1.push_front(22);
-  lst1.push_front(21);
-  lst1.push_front(20);
+  ECE2400_CHECK_INT_EQ( lst.size(), 3 );
 
   // Call the assignment operator
 
-  lst1 = lst0;
+  lst = lst;
 
-  // Push front more values into lst0
+  // Verify list
 
-  lst0.push_front(9);
-  lst0.push_front(8);
-  lst0.push_front(7);
+  ECE2400_CHECK_INT_EQ( lst.size(), 3 );
 
-  // Verify list 0
-
-  int ref0[] = { 7, 8, 9, 10, 11, 12 };
-  for ( size_t i = 0; i < 6; i++ )
-    UTST_ASSERT_INT_EQ( lst0.at(i), ref0[i] );
-
-  // Verify list 1
-
-  int ref1[] = { 10, 11, 12 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_INT_EQ( lst1.at(i), ref1[i] );
+  int ref[] = { 10, 11, 12 };
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), ref[i] );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_6_double
+// test_case_9_reverse_v2
 //------------------------------------------------------------------------
-// A simple test case that tests push front doubles.
+// A simple test case that tests reverse v2
 
-void test_case_6_double()
+void test_case_9_reverse_v2()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListSpoly<double> lst;
-  lst.push_front( 1.2 );
-  lst.push_front( 1.1 );
-  lst.push_front( 1.0 );
+  SList<int> lst;
+  lst.push_front(12);
+  lst.push_front(11);
+  lst.push_front(10);
+  lst.reverse_v2();
 
-  double ref[] = { 1.0, 1.1, 1.2 };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_TRUE( lst.at(i) == ref[i] );
+  ECE2400_CHECK_INT_EQ( lst.size(), 3 );
+
+  int ref[] = { 12, 11, 10 };
+  for ( int i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), ref[i] );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_7_complex
+// test_case_10_reverse_longer_v2
 //------------------------------------------------------------------------
-// A simple test case that tests push front complex numbers.
+// A test case that tests reverse v2 with more data.
 
-void test_case_7_complex()
+void test_case_10_reverse_longer_v2()
 {
   std::printf( "\n%s\n", __func__ );
 
-  typedef std::complex<double> cmplx;
-  SListSpoly<cmplx> lst;
-  lst.push_front( cmplx(1.2,2.0) );
-  lst.push_front( cmplx(1.1,2.1) );
-  lst.push_front( cmplx(1.0,2.2) );
+  SList<int> lst;
+  for ( int i = 0; i < 12; i++ )
+    lst.push_front(i);
+  lst.reverse_v2();
 
-  cmplx ref[] = { cmplx(1.0,2.2), cmplx(1.1,2.1), cmplx(1.2,2.0) };
-  for ( size_t i = 0; i < 3; i++ )
-    UTST_ASSERT_TRUE( lst.at(i) == ref[i] );
+  ECE2400_CHECK_INT_EQ( lst.size(), 12 );
+
+  for ( int i = 0; i < 12; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), i );
+  }
 }
 
 //------------------------------------------------------------------------
-// test_case_8_list_list
+// test_case_11_reverse_reverse_v2
 //------------------------------------------------------------------------
-// A test acse for a list of lists.
+// A test case that calls reverse twice
 
-void test_case_8_list_list()
+void test_case_11_reverse_reverse_v2()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListSpoly<SListSpoly<int>> lst;
-  lst.push_front( SListSpoly<int>() );
-  lst.push_front( SListSpoly<int>() );
-  lst.push_front( SListSpoly<int>() );
+  SList<int> lst;
+  for ( int i = 0; i < 12; i++ )
+    lst.push_front(i);
+  lst.reverse_v2();
+  lst.reverse_v2();
 
-  lst.at(0).push_front(12);
-  lst.at(0).push_front(11);
-  lst.at(0).push_front(10);
+  ECE2400_CHECK_INT_EQ( lst.size(), 12 );
 
-  lst.at(1).push_front(21);
-  lst.at(1).push_front(20);
-
-  lst.at(2).push_front(30);
-
-  UTST_ASSERT_TRUE( lst.at(0).at(0) == 10 );
-  UTST_ASSERT_TRUE( lst.at(0).at(1) == 11 );
-  UTST_ASSERT_TRUE( lst.at(0).at(2) == 12 );
-  UTST_ASSERT_TRUE( lst.at(1).at(0) == 20 );
-  UTST_ASSERT_TRUE( lst.at(1).at(1) == 21 );
-  UTST_ASSERT_TRUE( lst.at(2).at(0) == 30 );
+  for ( int i = 0; i < 12; i++ ) {
+    ECE2400_CHECK_INT_EQ( lst.at(i), 12-i-1 );
+  }
 }
 
 //------------------------------------------------------------------------
@@ -240,16 +308,20 @@ void test_case_8_list_list()
 
 int main( int argc, char** argv )
 {
-  __n = ( argc == 1 ) ? 0 : atoi( argv[1] );
+  __n = ( argc == 1 ) ? 0 : std::atoi( argv[1] );
 
-  if ( ( __n == 0 ) || ( __n == 1 ) ) test_case_1_push_front();
-  if ( ( __n == 0 ) || ( __n == 2 ) ) test_case_2_reverse();
-  if ( ( __n == 0 ) || ( __n == 3 ) ) test_case_3_copy();
-  if ( ( __n == 0 ) || ( __n == 4 ) ) test_case_4_assign();
-  if ( ( __n == 0 ) || ( __n == 5 ) ) test_case_5_assign_self();
-  if ( ( __n == 0 ) || ( __n == 6 ) ) test_case_6_double();
-  if ( ( __n == 0 ) || ( __n == 7 ) ) test_case_7_complex();
-  if ( ( __n == 0 ) || ( __n == 8 ) ) test_case_8_list_list();
+  if ( ( __n <= 0 ) || ( __n == 1  ) ) test_case_1_push_front();
+  if ( ( __n <= 0 ) || ( __n == 2  ) ) test_case_2_push_front_longer();
+  if ( ( __n <= 0 ) || ( __n == 3  ) ) test_case_3_reverse_v1();
+  if ( ( __n <= 0 ) || ( __n == 4  ) ) test_case_4_reverse_longer_v1();
+  if ( ( __n <= 0 ) || ( __n == 5  ) ) test_case_5_reverse_reverse_v1();
+  if ( ( __n <= 0 ) || ( __n == 6  ) ) test_case_6_copy();
+  if ( ( __n <= 0 ) || ( __n == 7  ) ) test_case_7_assign();
+  if ( ( __n <= 0 ) || ( __n == 8  ) ) test_case_8_self_assign();
+  if ( ( __n <= 0 ) || ( __n == 9  ) ) test_case_9_reverse_v2();
+  if ( ( __n <= 0 ) || ( __n == 10 ) ) test_case_10_reverse_longer_v2();
+  if ( ( __n <= 0 ) || ( __n == 11 ) ) test_case_11_reverse_reverse_v2();
 
-  return 0;
+  printf( "\n" );
+  return __failed;
 }

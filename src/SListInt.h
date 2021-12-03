@@ -6,8 +6,6 @@
 #ifndef SLIST_INT_H
 #define SLIST_INT_H
 
-#include <cstddef>
-
 class SListInt
 {
   //----------------------------------------------------------------------
@@ -20,12 +18,13 @@ class SListInt
   ~SListInt();
 
   //----------------------------------------------------------------------
-  // Copy constructor and assignment operator
+  // Copy constructor, swap, assignment operator
   //----------------------------------------------------------------------
 
  public:
 
   SListInt( const SListInt& lst );
+  void swap( SListInt& lst );
   SListInt& operator=( const SListInt& lst );
 
   //----------------------------------------------------------------------
@@ -35,8 +34,11 @@ class SListInt
  public:
 
   void push_front( int v );
-  int  at( size_t idx ) const;
-  void reverse();
+  int  size() const;
+  int  at( int idx ) const;
+  int& at( int idx );
+  void reverse_v1();
+  void reverse_v2();
   void print() const;
 
   //----------------------------------------------------------------------

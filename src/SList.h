@@ -1,15 +1,13 @@
 //========================================================================
-// SListDpoly.h
+// SList.h
 //========================================================================
-// Declarations for dynamic polymorphic singly linked list.
+// Declarations for SList<T>
 
-#ifndef SLIST_DPOLY_H
-#define SLIST_DPOLY_H
+#ifndef SLIST_H
+#define SLIST_H
 
-#include "types-dpoly.h"
-#include <cstddef>
-
-class SListDpoly
+template < typename T >
+class SList
 {
   //----------------------------------------------------------------------
   // Constructor and destructor
@@ -17,17 +15,18 @@ class SListDpoly
 
  public:
 
-  SListDpoly();
-  ~SListDpoly();
+  SList();
+  ~SList();
 
   //----------------------------------------------------------------------
-  // Copy constructor and assignment operator
+  // Copy constructor, swap, assignment operator
   //----------------------------------------------------------------------
 
  public:
 
-  SListDpoly( const SListDpoly& lst );
-  SListDpoly& operator=( const SListDpoly& lst );
+  SList( const SList& lst );
+  void swap( SList& lst );
+  SList& operator=( const SList& lst );
 
   //----------------------------------------------------------------------
   // Member functions
@@ -35,10 +34,13 @@ class SListDpoly
 
  public:
 
-  void           push_front( const IObject& v );
-  const IObject& at( size_t idx ) const;
-  void           reverse();
-  void           print() const;
+  void     push_front( const T& v );
+  int      size() const;
+  const T& at( int idx ) const;
+  T&       at( int idx );
+  void     reverse_v1();
+  void     reverse_v2();
+  void     print() const;
 
   //----------------------------------------------------------------------
   // Private member functions and fields
@@ -48,13 +50,19 @@ class SListDpoly
 
   struct Node                // nested struct declaration
   {
-    IObject* obj_p;
-    Node*    next_p;
+    T     value;
+    Node* next_p;
   };
 
   Node* m_head_p;            // member field
 
 };
 
-#endif /* SLIST_DPOLY_H */
+//------------------------------------------------------------------------
+// Include inline definitions
+//------------------------------------------------------------------------
+
+#include "SList.inl"
+
+#endif /* SLIST_H */
 

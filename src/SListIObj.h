@@ -1,15 +1,14 @@
 //========================================================================
-// SListSpoly.h
+// SListIObj.h
 //========================================================================
-// Declarations for static polymorphic singly linked list.
+// Declarations for SListIObj
 
-#ifndef SLIST_SPOLY_H
-#define SLIST_SPOLY_H
+#ifndef SLIST_IOBJ_H
+#define SLIST_IOBJ_H
 
-#include <cstddef>
+#include "types-dpoly.h"
 
-template < typename T >
-class SListSpoly
+class SListIObj
 {
   //----------------------------------------------------------------------
   // Constructor and destructor
@@ -17,17 +16,18 @@ class SListSpoly
 
  public:
 
-  SListSpoly();
-  ~SListSpoly();
+  SListIObj();
+  ~SListIObj();
 
   //----------------------------------------------------------------------
-  // Copy constructor and assignment operator
+  // Copy constructor, swap, assignment operator
   //----------------------------------------------------------------------
 
  public:
 
-  SListSpoly( const SListSpoly<T>& lst );
-  SListSpoly& operator=( const SListSpoly<T>& lst );
+  SListIObj( const SListIObj& lst );
+  void swap( SListIObj& lst );
+  SListIObj& operator=( const SListIObj& lst );
 
   //----------------------------------------------------------------------
   // Member functions
@@ -35,11 +35,13 @@ class SListSpoly
 
  public:
 
-  void     push_front( const T& v );
-  const T& at( size_t idx ) const;
-  T&       at( size_t idx );
-  void     reverse();
-  void     print() const;
+  void      push_front( const IObject& v );
+  int       size() const;
+  IObject*  at( int idx ) const;
+  IObject*& at( int idx );
+  void      reverse_v1();
+  void      reverse_v2();
+  void      print() const;
 
   //----------------------------------------------------------------------
   // Private member functions and fields
@@ -49,19 +51,13 @@ class SListSpoly
 
   struct Node                // nested struct declaration
   {
-    T     value;
-    Node* next_p;
+    IObject* obj_p;
+    Node*    next_p;
   };
 
   Node* m_head_p;            // member field
 
 };
 
-//------------------------------------------------------------------------
-// Include inline and template definitions
-//------------------------------------------------------------------------
-
-#include "SListSpoly.inl"
-
-#endif /* SLIST_SPOLY_H */
+#endif /* SLIST_IOBJ_H */
 

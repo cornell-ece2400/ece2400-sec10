@@ -1,40 +1,41 @@
 //========================================================================
-// SListInt.cc
+// SListIObj.cc
 //========================================================================
-// Implementation for ListInt
+// Implementation for ListIObj
 
 #include <cstdio>
 
-#include "SListInt.h"
+#include "SListIObj.h"
 #include "ece2400-stdlib.h"
 
 //------------------------------------------------------------------------
-// SListInt Default Constructor
+// SListIObj Default Constructor
 //------------------------------------------------------------------------
 
-SListInt::SListInt()
+SListIObj::SListIObj()
 {
   m_head_p = nullptr;
 }
 
 //------------------------------------------------------------------------
-// SListInt Destructor
+// SListIObj Destructor
 //------------------------------------------------------------------------
 
-SListInt::~SListInt()
+SListIObj::~SListIObj()
 {
   while ( m_head_p != nullptr ) {
     Node* temp_p = m_head_p->next_p;
+    delete m_head_p->obj_p;
     delete m_head_p;
     m_head_p = temp_p;
   }
 }
 
 //------------------------------------------------------------------------
-// SListInt Copy Constructor
+// SListIObj Copy Constructor
 //------------------------------------------------------------------------
 
-SListInt::SListInt( const SListInt& lst )
+SListIObj::SListIObj( const SListIObj& lst )
 {
   // We must make sure head pointer is initialized correctly, otherwise
   // push_front will not work correctly.
@@ -46,7 +47,7 @@ SListInt::SListInt( const SListInt& lst )
 
   Node* curr_p = lst.m_head_p;
   while ( curr_p != nullptr ) {
-    push_front( curr_p->value );
+    push_front( *curr_p->obj_p );
     curr_p = curr_p->next_p;
   }
 
@@ -58,42 +59,42 @@ SListInt::SListInt( const SListInt& lst )
 }
 
 //------------------------------------------------------------------------
-// SListInt Swap
+// SListIObj Swap
 //------------------------------------------------------------------------
 
-void SListInt::swap( SListInt& lst )
+void SListIObj::swap( SListIObj& lst )
 {
   ece2400::swap( m_head_p, lst.m_head_p );
 }
 
 //------------------------------------------------------------------------
-// SListInt Overloaded Assignment Operator
+// SListIObj Overloaded Assignment Operator
 //------------------------------------------------------------------------
 
-SListInt& SListInt::operator=( const SListInt& lst )
+SListIObj& SListIObj::operator=( const SListIObj& lst )
 {
-  SListInt tmp( lst ); // create temporary copy of given list
-  swap( tmp );         // swap this list with temporary list
-  return *this;        // destructor called for temporary list
+  SListIObj tmp( lst ); // create temporary copy of given list
+  swap( tmp );          // swap this list with temporary list
+  return *this;         // destructor called for temporary list
 }
 
 //------------------------------------------------------------------------
-// SListInt::push_front
+// SListIObj::push_front
 //------------------------------------------------------------------------
 
-void SListInt::push_front( int v )
+void SListIObj::push_front( const IObject& v )
 {
   Node* new_node_p   = new Node;
-  new_node_p->value  = v;
+  new_node_p->obj_p  = v.clone();
   new_node_p->next_p = m_head_p;
   m_head_p           = new_node_p;
 }
 
 //------------------------------------------------------------------------
-// SListInt::size
+// SListIObj::size
 //------------------------------------------------------------------------
 
-int SListInt::size() const
+int SListIObj::size() const
 {
   int   size   = 0;
   Node* curr_p = m_head_p;
@@ -106,36 +107,44 @@ int SListInt::size() const
 }
 
 //------------------------------------------------------------------------
-// SListInt::at
+// SListIObj::at
 //------------------------------------------------------------------------
 
-int SListInt::at( int idx ) const
+IObject* SListIObj::at( int idx ) const
 {
   Node* curr_p = m_head_p;
   for ( int i = 0; i < idx; i++ )
     curr_p = curr_p->next_p;
 
-  return curr_p->value;
+  return curr_p->obj_p;
 }
 
 //------------------------------------------------------------------------
-// SListInt::at
+// SListIObj::at
 //------------------------------------------------------------------------
 
-int& SListInt::at( int idx )
+IObject*& SListIObj::at( int idx )
 {
   Node* curr_p = m_head_p;
   for ( int i = 0; i < idx; i++ )
     curr_p = curr_p->next_p;
 
-  return curr_p->value;
+  return curr_p->obj_p;
 }
 
 //------------------------------------------------------------------------
-// SListInt::reverse_v1
+// SListIObj::reverse_v1
 //------------------------------------------------------------------------
+// Pseudocode for this algorithm:
+//
+//  def reverse( x, n ):
+//    for i in 0 to n/2:
+//      lo = i
+//      hi = (n-1) - i
+//      swap( x[lo], x[hi] )
+//
 
-void SListInt::reverse_v1()
+void SListIObj::reverse_v1()
 {
   int n = size();
   for ( int i = 0; i < n/2; i++ )
@@ -143,18 +152,26 @@ void SListInt::reverse_v1()
 }
 
 //------------------------------------------------------------------------
-// SListInt::reverse_v2
+// SListIObj::reverse_v2
 //------------------------------------------------------------------------
+// Steps for this algorithm:
+//
+//  1. Use the size member function to find number items in list
+//  2. Allocate a new array of integers on the heap with size items
+//  3. Iterate through list and copy each item to the array
+//  4. Iterate through list and copy each item from array in reverse order
+//  5. Delete temporary array
+//
 
-void SListInt::reverse_v2()
+void SListIObj::reverse_v2()
 {
   // Step 1. Create temporary list
-  SListInt lst;
+  SListIObj lst;
 
   // Step 2. Push front all values from this list onto temporary list
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    lst.push_front( curr_p->value );
+    lst.push_front( *(curr_p->obj_p) );
     curr_p = curr_p->next_p;
   }
 
@@ -163,16 +180,17 @@ void SListInt::reverse_v2()
 }
 
 //------------------------------------------------------------------------
-// SListInt::print
+// SListIObj::print
 //------------------------------------------------------------------------
 
-void SListInt::print() const
+void SListIObj::print() const
 {
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    std::printf( "%d ", curr_p->value );
+    curr_p->obj_p->print();
+    printf(" ");
     curr_p = curr_p->next_p;
   }
-  std::printf( "\n" );
+  printf("\n");
 }
 

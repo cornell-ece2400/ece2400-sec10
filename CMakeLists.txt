@@ -12,20 +12,23 @@ set(SRC_FILES
   ece2400-stdlib.cc
   types-dpoly.cc
   SListInt.cc
-  SListDpoly.cc
+  SListIObj.cc
 )
 
 set(TEST_ALL_FILES
-  slist-int-directed-test.cc
   types-dpoly-directed-test.cc
+  slist-int-directed-test.cc
   slist-dpoly-directed-test.cc
   slist-spoly-directed-test.cc
 )
 
 set(EVAL_FILES
-  slist-int-eval.cc
-  slist-dpoly-eval.cc
-  slist-spoly-eval.cc
+  slist-int-reverse-v1-eval.cc
+  slist-int-reverse-v2-eval.cc
+  slist-dpoly-reverse-v1-eval.cc
+  slist-dpoly-reverse-v2-eval.cc
+  slist-spoly-reverse-v1-eval.cc
+  slist-spoly-reverse-v2-eval.cc
 )
 
 #=========================================================================
@@ -47,10 +50,10 @@ endfunction()
 # Set up environment
 #-------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8...3.19)
 enable_language(CXX)
 enable_testing()
-project(sec7)
+project(sec10)
 
 # Set and cache the build type
 set(default_build_type "debug")
@@ -162,3 +165,77 @@ foreach(TEST_FILE ${TEST_ALL_FILES})
   add_dependencies(memcheck memcheck-${TEST_BIN})
 
 endforeach(TEST_FILE)
+
+#-------------------------------------------------------------------------
+# Run evaluation and generate plots
+#-------------------------------------------------------------------------
+
+set(SCRIPTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/scripts")
+
+add_custom_target(eval-run-plot
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Running evaluation for slist-int-reverse-v1"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND bash -c "source ${SCRIPTS_DIR}/slist-int-reverse-v1-eval.sh"
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-int-reverse-v1-eval.txt
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Running evaluation for slist-int-reverse-v2"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND bash -c "source ${SCRIPTS_DIR}/slist-int-reverse-v2-eval.sh"
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-int-reverse-v2-eval.txt
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Running evaluation for slist-dpoly-reverse-v1"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND bash -c "source ${SCRIPTS_DIR}/slist-dpoly-reverse-v1-eval.sh"
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-dpoly-reverse-v1-eval.txt
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Running evaluation for slist-dpoly-reverse-v2"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND bash -c "source ${SCRIPTS_DIR}/slist-dpoly-reverse-v2-eval.sh"
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-dpoly-reverse-v2-eval.txt
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Running evaluation for slist-spoly-reverse-v1"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND bash -c "source ${SCRIPTS_DIR}/slist-spoly-reverse-v1-eval.sh"
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-spoly-reverse-v1-eval.txt
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Running evaluation for slist-spoly-reverse-v2"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND bash -c "source ${SCRIPTS_DIR}/slist-spoly-reverse-v2-eval.sh"
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-spoly-reverse-v2-eval.txt
+
+  COMMAND echo ""
+  COMMAND echo "========================================================="
+  COMMAND echo " Generating final plot"
+  COMMAND echo "========================================================="
+  COMMAND echo ""
+
+  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot-all.py
+)
+
+add_dependencies(eval-run-plot eval)
+

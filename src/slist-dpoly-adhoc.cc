@@ -1,30 +1,30 @@
 //========================================================================
-// slist-dpoly-adhoc.c
+// slist-iobj-adhoc.c
 //========================================================================
 
-#include "SListDpoly.h"
+#include "SListIObj.h"
 
 int main( void )
 {
   // Construct a list using default constructor
 
-  SListDpoly lst;
+  SListIObj list;
 
   // Push front three items
 
-  lst.push_front( Integer(12) );
-  lst.push_front( Integer(11) );
-  lst.push_front( Integer(10) );
+  list.push_front( Integer(12) );
+  list.push_front( Integer(11) );
+  list.push_front( Integer(10) );
 
   // Push front three items of a different type
 
-  lst.push_front( Double(1.2) );
-  lst.push_front( Double(1.1) );
-  lst.push_front( Double(1.0) );
+  list.push_front( Double(1.2) );
+  list.push_front( Double(1.1) );
+  list.push_front( Double(1.0) );
 
   // Print the list
 
-  lst.print();
+  list.print();
 
   return 0;
 }
