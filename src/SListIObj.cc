@@ -140,13 +140,16 @@ IObject*& SListIObj::at( int idx )
 //
 //  def reverse( x, n ):
 //    for i in 0 to n/2:
-//      lo = i
-//      hi = (n-1) - i
-//      swap( x[lo], x[hi] )
+//      swap( x[i], x[(n-1)-i] )
+//
 //
 
 void SListIObj::reverse_v1()
 {
+  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  // Modify this implementation to use generic swap
+  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
   int n = size();
   for ( int i = 0; i < n/2; i++ ) {
     int lo = i;
