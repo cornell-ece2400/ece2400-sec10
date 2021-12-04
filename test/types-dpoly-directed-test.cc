@@ -3,8 +3,8 @@
 //========================================================================
 // This file contains directed tests for DPoly types
 
-#include "ece2400-stdlib.h"
 #include "types-dpoly.h"
+#include "ece2400-stdlib.h"
 
 //------------------------------------------------------------------------
 // test_case_1_integer

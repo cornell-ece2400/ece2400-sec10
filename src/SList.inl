@@ -1,12 +1,11 @@
 //========================================================================
 // SList.cc
 //========================================================================
-// Implementation for List
-
-#include <cstdio>
+// Implementation for SList<T>
 
 #include "SList.h"
-#include "ece2400-stdlib.h"
+#include "swap.h"
+#include <cstdio>
 
 //------------------------------------------------------------------------
 // SList Default Constructor
@@ -28,6 +27,12 @@ SList<T>::~SList()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement destructor
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  while ( m_head_p != nullptr ) {
+    Node* temp_p = m_head_p->next_p;
+    delete m_head_p;
+    m_head_p = temp_p;
+  }
 }
 
 //------------------------------------------------------------------------
@@ -68,6 +73,8 @@ void SList<T>::swap( SList<T>& lst )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement swap
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  ::swap( m_head_p, lst.m_head_p );
 }
 
 //------------------------------------------------------------------------
@@ -80,7 +87,10 @@ SList<T>& SList<T>::operator=( const SList<T>& lst )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement operator=
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  return *this;
+
+  SList<T> tmp( lst ); // create temporary copy of given list
+  swap( tmp );         // swap this list with temporary list
+  return *this;        // destructor called for temporary list
 }
 
 //------------------------------------------------------------------------
@@ -93,6 +103,11 @@ void SList<T>::push_front( const T& v )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement push_front
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  Node* new_node_p   = new Node;
+  new_node_p->value  = v;
+  new_node_p->next_p = m_head_p;
+  m_head_p           = new_node_p;
 }
 
 //------------------------------------------------------------------------
@@ -102,14 +117,15 @@ void SList<T>::push_front( const T& v )
 template < typename T >
 int SList<T>::size() const
 {
-  int   size   = 0;
+  int n = 0;
+
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    size++;
+    n++;
     curr_p = curr_p->next_p;
   }
 
-  return size;
+  return n;
 }
 
 //------------------------------------------------------------------------
@@ -119,10 +135,11 @@ int SList<T>::size() const
 template < typename T >
 const T& SList<T>::at( int idx ) const
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement at
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  return m_head_p->value;
+  Node* curr_p = m_head_p;
+  for ( int i = 0; i < idx; i++ )
+    curr_p = curr_p->next_p;
+
+  return curr_p->value;
 }
 
 //------------------------------------------------------------------------
@@ -132,10 +149,11 @@ const T& SList<T>::at( int idx ) const
 template < typename T >
 T& SList<T>::at( int idx )
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement at
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  return m_head_p->value;
+  Node* curr_p = m_head_p;
+  for ( int i = 0; i < idx; i++ )
+    curr_p = curr_p->next_p;
+
+  return curr_p->value;
 }
 
 //------------------------------------------------------------------------
@@ -154,6 +172,26 @@ void SList<T>::reverse_v1()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v1
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  // This implementation with the call to swap is faster than using this
+  // approach:
+  //
+  //   int lo = i;
+  //   int hi = (n-1)-i;
+  //
+  //   int tmp = at(lo);
+  //   at(lo)  = at(hi);
+  //   at(hi)  = tmp;
+  //
+  // This is because the above approach ends up traversing the once to
+  // read lo, once to write lo, once to read hi, once to write hit. When
+  // using the explicit call to swap we only to the traversal once and
+  // then swap uses a non-const reference to both read and write the
+  // values.
+
+  int n = size();
+  for ( int i = 0; i < n/2; i++ )
+    ::swap( at(i), at((n-1)-i) );
 }
 
 //------------------------------------------------------------------------
@@ -172,6 +210,19 @@ void SList<T>::reverse_v2()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v2
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  // Step 1. Create temporary list
+  SList lst;
+
+  // Step 2. Push front all values from this list onto temporary list
+  Node* curr_p = m_head_p;
+  while ( curr_p != nullptr ) {
+    lst.push_front( curr_p->value );
+    curr_p = curr_p->next_p;
+  }
+
+  // Step 3. Swap this list with temporary list
+  swap( lst );
 }
 
 //------------------------------------------------------------------------
@@ -188,4 +239,3 @@ void SList<T>::print() const
   }
   std::printf( "\n" );
 }
-

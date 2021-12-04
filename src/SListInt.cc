@@ -1,12 +1,10 @@
 //========================================================================
 // SListInt.cc
 //========================================================================
-// Implementation for ListInt
-
-#include <cstdio>
+// Implementation for SListInt
 
 #include "SListInt.h"
-#include "ece2400-stdlib.h"
+#include <cstdio>
 
 //------------------------------------------------------------------------
 // SListInt Default Constructor
@@ -63,7 +61,9 @@ SListInt::SListInt( const SListInt& lst )
 
 void SListInt::swap( SListInt& lst )
 {
-  ece2400::swap( m_head_p, lst.m_head_p );
+  Node* tmp_p  = m_head_p;
+  m_head_p     = lst.m_head_p;
+  lst.m_head_p = tmp_p;
 }
 
 //------------------------------------------------------------------------
@@ -95,14 +95,15 @@ void SListInt::push_front( int v )
 
 int SListInt::size() const
 {
-  int   size   = 0;
+  int n = 0;
+
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    size++;
+    n++;
     curr_p = curr_p->next_p;
   }
 
-  return size;
+  return n;
 }
 
 //------------------------------------------------------------------------
@@ -134,17 +135,37 @@ int& SListInt::at( int idx )
 //------------------------------------------------------------------------
 // SListInt::reverse_v1
 //------------------------------------------------------------------------
+// Pseudocode for this algorithm:
+//
+//  def reverse( x, n ):
+//    for i in 0 to n/2:
+//      lo = i
+//      hi = (n-1) - i
+//      swap( x[lo], x[hi] )
+//
 
 void SListInt::reverse_v1()
 {
   int n = size();
-  for ( int i = 0; i < n/2; i++ )
-    ece2400::swap( at(i), at((n-1)-i) );
+  for ( int i = 0; i < n/2; i++ ) {
+    int lo = i;
+    int hi = (n-1)-i;
+
+    int tmp = at(lo);
+    at(lo)  = at(hi);
+    at(hi)  = tmp;
+  }
 }
 
 //------------------------------------------------------------------------
 // SListInt::reverse_v2
 //------------------------------------------------------------------------
+// Steps for this algorithm:
+//
+//  1. Create temporary singly linked list
+//  2. Push front all values from this list onto temporary list
+//  3. Swap this list with the temporary list
+//
 
 void SListInt::reverse_v2()
 {

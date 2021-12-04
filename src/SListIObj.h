@@ -49,13 +49,13 @@ class SListIObj
 
  private:
 
-  struct Node                // nested struct declaration
+  struct Node
   {
     IObject* obj_p;
     Node*    next_p;
   };
 
-  Node* m_head_p;            // member field
+  Node* m_head_p;
 
 };
 

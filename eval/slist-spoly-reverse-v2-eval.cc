@@ -6,10 +6,10 @@
 // run times.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "SList.h"
 #include "ece2400-stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 //------------------------------------------------------------------------
 // print_help

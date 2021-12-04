@@ -159,18 +159,6 @@ void  __ece2400_check_and_print_double_binop(const char*, int, const char*, cons
 namespace ece2400
 {
   //----------------------------------------------------------------------
-  // swap
-  //----------------------------------------------------------------------
-
-  template < typename T >
-  inline void swap( T& a, T& b )
-  {
-    T tmp = a;
-    a = b;
-    b = tmp;
-  }
-
-  //----------------------------------------------------------------------
   // sort
   //----------------------------------------------------------------------
   // A reference sorting function that sorts an array of integer in

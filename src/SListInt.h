@@ -47,13 +47,13 @@ class SListInt
 
  private:
 
-  struct Node                // nested struct declaration
+  struct Node
   {
     int   value;
     Node* next_p;
   };
 
-  Node* m_head_p;            // member field
+  Node* m_head_p;
 
 };
 

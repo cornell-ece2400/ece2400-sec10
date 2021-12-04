@@ -16,6 +16,7 @@ set(SRC_FILES
 )
 
 set(TEST_ALL_FILES
+  swap-directed-test.cc
   types-dpoly-directed-test.cc
   slist-int-directed-test.cc
   slist-dpoly-directed-test.cc
@@ -53,7 +54,7 @@ endfunction()
 cmake_minimum_required(VERSION 2.8...3.19)
 enable_language(CXX)
 enable_testing()
-project(sec10)
+project(sec11)
 
 # Set and cache the build type
 set(default_build_type "debug")
@@ -181,7 +182,7 @@ add_custom_target(eval-run-plot
   COMMAND echo ""
 
   COMMAND bash -c "source ${SCRIPTS_DIR}/slist-int-reverse-v1-eval.sh"
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-int-reverse-v1-eval.txt
+  COMMAND python ${SCRIPTS_DIR}/slist-plot.py ./slist-int-reverse-v1-eval.txt
 
   COMMAND echo ""
   COMMAND echo "========================================================="
@@ -190,7 +191,7 @@ add_custom_target(eval-run-plot
   COMMAND echo ""
 
   COMMAND bash -c "source ${SCRIPTS_DIR}/slist-int-reverse-v2-eval.sh"
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-int-reverse-v2-eval.txt
+  COMMAND python ${SCRIPTS_DIR}/slist-plot.py ./slist-int-reverse-v2-eval.txt
 
   COMMAND echo ""
   COMMAND echo "========================================================="
@@ -199,7 +200,7 @@ add_custom_target(eval-run-plot
   COMMAND echo ""
 
   COMMAND bash -c "source ${SCRIPTS_DIR}/slist-dpoly-reverse-v1-eval.sh"
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-dpoly-reverse-v1-eval.txt
+  COMMAND python ${SCRIPTS_DIR}/slist-plot.py ./slist-dpoly-reverse-v1-eval.txt
 
   COMMAND echo ""
   COMMAND echo "========================================================="
@@ -208,7 +209,7 @@ add_custom_target(eval-run-plot
   COMMAND echo ""
 
   COMMAND bash -c "source ${SCRIPTS_DIR}/slist-dpoly-reverse-v2-eval.sh"
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-dpoly-reverse-v2-eval.txt
+  COMMAND python ${SCRIPTS_DIR}/slist-plot.py ./slist-dpoly-reverse-v2-eval.txt
 
   COMMAND echo ""
   COMMAND echo "========================================================="
@@ -217,7 +218,7 @@ add_custom_target(eval-run-plot
   COMMAND echo ""
 
   COMMAND bash -c "source ${SCRIPTS_DIR}/slist-spoly-reverse-v1-eval.sh"
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-spoly-reverse-v1-eval.txt
+  COMMAND python ${SCRIPTS_DIR}/slist-plot.py ./slist-spoly-reverse-v1-eval.txt
 
   COMMAND echo ""
   COMMAND echo "========================================================="
@@ -226,7 +227,7 @@ add_custom_target(eval-run-plot
   COMMAND echo ""
 
   COMMAND bash -c "source ${SCRIPTS_DIR}/slist-spoly-reverse-v2-eval.sh"
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot.py ./slist-spoly-reverse-v2-eval.txt
+  COMMAND python ${SCRIPTS_DIR}/slist-plot.py ./slist-spoly-reverse-v2-eval.txt
 
   COMMAND echo ""
   COMMAND echo "========================================================="
@@ -234,7 +235,7 @@ add_custom_target(eval-run-plot
   COMMAND echo "========================================================="
   COMMAND echo ""
 
-  COMMAND python ${SCRIPTS_DIR}/slist-reverse-plot-all.py
+  COMMAND python ${SCRIPTS_DIR}/slist-plot-all.py
 )
 
 add_dependencies(eval-run-plot eval)

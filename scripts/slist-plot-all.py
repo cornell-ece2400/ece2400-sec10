@@ -1,8 +1,7 @@
 #=========================================================================
-# slist-reverse-plot-all.py
+# slist-plot-all.py
 #=========================================================================
-# Simple python script for plotting measured execution time and doing a
-# polynomial fit using matplotlib and numpy.
+# Simple python script for plotting all of the results on a single plot.
 #
 # Author : Christopher Batten
 # Date   : October 14, 2021
@@ -65,5 +64,5 @@ ax.set( xlabel="Input Array Size", ylabel="Measured Execution Time (s)" )
 ax.grid()
 ax.legend()
 
-fig.savefig( "slist-reverse-plot-all.pdf", bbox_inches='tight' )
+fig.savefig( "slist-plot-all.pdf", bbox_inches='tight' )
 
