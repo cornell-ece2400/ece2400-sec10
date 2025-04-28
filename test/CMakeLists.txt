@@ -1,0 +1,5 @@
+add_pa_test(slist-dpoly-directed-test slist-dpoly-directed-test.cc)
+add_pa_test(slist-int-directed-test slist-int-directed-test.cc)
+add_pa_test(slist-spoly-directed-test slist-spoly-directed-test.cc)
+add_pa_test(swap-directed-test swap-directed-test.cc)
+add_pa_test(types-dpoly-directed-test types-dpoly-directed-test.cc)

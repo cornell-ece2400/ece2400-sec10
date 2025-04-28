@@ -3,15 +3,13 @@
 //========================================================================
 // Implementation for generic swap function
 
-template < typename T >
-void swap( T& a, T& b )
-{
+template <typename T>
+void swap(T& a, T& b) {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement generic swap
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
   T tmp = a;
-  a = b;
-  b = tmp;
+  a     = b;
+  b     = tmp;
 }
-

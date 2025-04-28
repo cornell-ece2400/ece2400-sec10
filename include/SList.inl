@@ -11,9 +11,8 @@
 // SList Default Constructor
 //------------------------------------------------------------------------
 
-template < typename T >
-SList<T>::SList()
-{
+template <typename T>
+SList<T>::SList() {
   m_head_p = nullptr;
 }
 
@@ -21,14 +20,13 @@ SList<T>::SList()
 // SList Destructor
 //------------------------------------------------------------------------
 
-template < typename T >
-SList<T>::~SList()
-{
+template <typename T>
+SList<T>::~SList() {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement destructor
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  while ( m_head_p != nullptr ) {
+  while (m_head_p != nullptr) {
     Node* temp_p = m_head_p->next_p;
     delete m_head_p;
     m_head_p = temp_p;
@@ -39,9 +37,8 @@ SList<T>::~SList()
 // SList Copy Constructor
 //------------------------------------------------------------------------
 
-template < typename T >
-SList<T>::SList( const SList<T>& lst )
-{
+template <typename T>
+SList<T>::SList(const SList<T>& lst) {
   // We must make sure head pointer is initialized correctly, otherwise
   // push_front will not work correctly.
 
@@ -51,8 +48,8 @@ SList<T>::SList( const SList<T>& lst )
   // add it to this list.
 
   Node* curr_p = lst.m_head_p;
-  while ( curr_p != nullptr ) {
-    push_front( curr_p->value );
+  while (curr_p != nullptr) {
+    push_front(curr_p->value);
     curr_p = curr_p->next_p;
   }
 
@@ -67,39 +64,36 @@ SList<T>::SList( const SList<T>& lst )
 // SList Swap
 //------------------------------------------------------------------------
 
-template < typename T >
-void SList<T>::swap( SList<T>& lst )
-{
+template <typename T>
+void SList<T>::swap(SList<T>& lst) {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement swap
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  ::swap( m_head_p, lst.m_head_p );
+  ::swap(m_head_p, lst.m_head_p);
 }
 
 //------------------------------------------------------------------------
 // SList Overloaded Assignment Operator
 //------------------------------------------------------------------------
 
-template < typename T >
-SList<T>& SList<T>::operator=( const SList<T>& lst )
-{
+template <typename T>
+SList<T>& SList<T>::operator=(const SList<T>& lst) {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement operator=
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  SList<T> tmp( lst ); // create temporary copy of given list
-  swap( tmp );         // swap this list with temporary list
-  return *this;        // destructor called for temporary list
+  SList<T> tmp(lst);  // create temporary copy of given list
+  swap(tmp);          // swap this list with temporary list
+  return *this;       // destructor called for temporary list
 }
 
 //------------------------------------------------------------------------
 // SList<T>::push_front
 //------------------------------------------------------------------------
 
-template < typename T >
-void SList<T>::push_front( const T& v )
-{
+template <typename T>
+void SList<T>::push_front(const T& v) {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement push_front
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -114,13 +108,12 @@ void SList<T>::push_front( const T& v )
 // SList<T>::size
 //------------------------------------------------------------------------
 
-template < typename T >
-int SList<T>::size() const
-{
+template <typename T>
+int SList<T>::size() const {
   int n = 0;
 
   Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
+  while (curr_p != nullptr) {
     n++;
     curr_p = curr_p->next_p;
   }
@@ -132,11 +125,10 @@ int SList<T>::size() const
 // SList<T>::at
 //------------------------------------------------------------------------
 
-template < typename T >
-const T& SList<T>::at( int idx ) const
-{
+template <typename T>
+const T& SList<T>::at(int idx) const {
   Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
+  for (int i = 0; i < idx; i++)
     curr_p = curr_p->next_p;
 
   return curr_p->value;
@@ -146,11 +138,10 @@ const T& SList<T>::at( int idx ) const
 // SList<T>::at
 //------------------------------------------------------------------------
 
-template < typename T >
-T& SList<T>::at( int idx )
-{
+template <typename T>
+T& SList<T>::at(int idx) {
   Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
+  for (int i = 0; i < idx; i++)
     curr_p = curr_p->next_p;
 
   return curr_p->value;
@@ -166,9 +157,8 @@ T& SList<T>::at( int idx )
 //      swap( x[i], x[(n-1)-i] )
 //
 
-template < typename T >
-void SList<T>::reverse_v1()
-{
+template <typename T>
+void SList<T>::reverse_v1() {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v1
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -190,8 +180,8 @@ void SList<T>::reverse_v1()
   // values.
 
   int n = size();
-  for ( int i = 0; i < n/2; i++ )
-    ::swap( at(i), at((n-1)-i) );
+  for (int i = 0; i < n / 2; i++)
+    ::swap(at(i), at((n - 1) - i));
 }
 
 //------------------------------------------------------------------------
@@ -204,9 +194,8 @@ void SList<T>::reverse_v1()
 //  3. Swap this list with the temporary list
 //
 
-template < typename T >
-void SList<T>::reverse_v2()
-{
+template <typename T>
+void SList<T>::reverse_v2() {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v2
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -216,26 +205,25 @@ void SList<T>::reverse_v2()
 
   // Step 2. Push front all values from this list onto temporary list
   Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
-    lst.push_front( curr_p->value );
+  while (curr_p != nullptr) {
+    lst.push_front(curr_p->value);
     curr_p = curr_p->next_p;
   }
 
   // Step 3. Swap this list with temporary list
-  swap( lst );
+  swap(lst);
 }
 
 //------------------------------------------------------------------------
 // SList<T>::print
 //------------------------------------------------------------------------
 
-template < typename T >
-void SList<T>::print() const
-{
+template <typename T>
+void SList<T>::print() const {
   Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
-    std::printf( "%d ", curr_p->value );
+  while (curr_p != nullptr) {
+    std::printf("%d ", curr_p->value);
     curr_p = curr_p->next_p;
   }
-  std::printf( "\n" );
+  std::printf("\n");
 }

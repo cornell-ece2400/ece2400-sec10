@@ -4,14 +4,14 @@
 // Implementation for SListIObj
 
 #include "SListIObj.h"
+
 #include <cstdio>
 
 //------------------------------------------------------------------------
 // SListIObj Default Constructor
 //------------------------------------------------------------------------
 
-SListIObj::SListIObj()
-{
+SListIObj::SListIObj() {
   m_head_p = nullptr;
 }
 
@@ -19,9 +19,8 @@ SListIObj::SListIObj()
 // SListIObj Destructor
 //------------------------------------------------------------------------
 
-SListIObj::~SListIObj()
-{
-  while ( m_head_p != nullptr ) {
+SListIObj::~SListIObj() {
+  while (m_head_p != nullptr) {
     Node* temp_p = m_head_p->next_p;
     delete m_head_p->obj_p;
     delete m_head_p;
@@ -33,8 +32,7 @@ SListIObj::~SListIObj()
 // SListIObj Copy Constructor
 //------------------------------------------------------------------------
 
-SListIObj::SListIObj( const SListIObj& lst )
-{
+SListIObj::SListIObj(const SListIObj& lst) {
   // We must make sure head pointer is initialized correctly, otherwise
   // push_front will not work correctly.
 
@@ -44,8 +42,8 @@ SListIObj::SListIObj( const SListIObj& lst )
   // add it to this list.
 
   Node* curr_p = lst.m_head_p;
-  while ( curr_p != nullptr ) {
-    push_front( *curr_p->obj_p );
+  while (curr_p != nullptr) {
+    push_front(*curr_p->obj_p);
     curr_p = curr_p->next_p;
   }
 
@@ -60,8 +58,7 @@ SListIObj::SListIObj( const SListIObj& lst )
 // SListIObj Swap
 //------------------------------------------------------------------------
 
-void SListIObj::swap( SListIObj& lst )
-{
+void SListIObj::swap(SListIObj& lst) {
   Node* tmp_p  = m_head_p;
   m_head_p     = lst.m_head_p;
   lst.m_head_p = tmp_p;
@@ -71,19 +68,17 @@ void SListIObj::swap( SListIObj& lst )
 // SListIObj Overloaded Assignment Operator
 //------------------------------------------------------------------------
 
-SListIObj& SListIObj::operator=( const SListIObj& lst )
-{
-  SListIObj tmp( lst ); // create temporary copy of given list
-  swap( tmp );          // swap this list with temporary list
-  return *this;         // destructor called for temporary list
+SListIObj& SListIObj::operator=(const SListIObj& lst) {
+  SListIObj tmp(lst);  // create temporary copy of given list
+  swap(tmp);           // swap this list with temporary list
+  return *this;        // destructor called for temporary list
 }
 
 //------------------------------------------------------------------------
 // SListIObj::push_front
 //------------------------------------------------------------------------
 
-void SListIObj::push_front( const IObject& v )
-{
+void SListIObj::push_front(const IObject& v) {
   Node* new_node_p   = new Node;
   new_node_p->obj_p  = v.clone();
   new_node_p->next_p = m_head_p;
@@ -94,12 +89,11 @@ void SListIObj::push_front( const IObject& v )
 // SListIObj::size
 //------------------------------------------------------------------------
 
-int SListIObj::size() const
-{
+int SListIObj::size() const {
   int n = 0;
 
   Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
+  while (curr_p != nullptr) {
     n++;
     curr_p = curr_p->next_p;
   }
@@ -111,10 +105,9 @@ int SListIObj::size() const
 // SListIObj::at
 //------------------------------------------------------------------------
 
-IObject* SListIObj::at( int idx ) const
-{
+IObject* SListIObj::at(int idx) const {
   Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
+  for (int i = 0; i < idx; i++)
     curr_p = curr_p->next_p;
 
   return curr_p->obj_p;
@@ -124,10 +117,9 @@ IObject* SListIObj::at( int idx ) const
 // SListIObj::at
 //------------------------------------------------------------------------
 
-IObject*& SListIObj::at( int idx )
-{
+IObject*& SListIObj::at(int idx) {
   Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
+  for (int i = 0; i < idx; i++)
     curr_p = curr_p->next_p;
 
   return curr_p->obj_p;
@@ -144,16 +136,15 @@ IObject*& SListIObj::at( int idx )
 //
 //
 
-void SListIObj::reverse_v1()
-{
+void SListIObj::reverse_v1() {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Modify this implementation to use generic swap
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
   int n = size();
-  for ( int i = 0; i < n/2; i++ ) {
+  for (int i = 0; i < n / 2; i++) {
     int lo = i;
-    int hi = (n-1)-i;
+    int hi = (n - 1) - i;
 
     IObject* tmp = at(lo);
     at(lo)       = at(hi);
@@ -171,34 +162,31 @@ void SListIObj::reverse_v1()
 //  3. Swap this list with the temporary list
 //
 
-void SListIObj::reverse_v2()
-{
+void SListIObj::reverse_v2() {
   // Step 1. Create temporary list
   SListIObj lst;
 
   // Step 2. Push front all values from this list onto temporary list
   Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
-    lst.push_front( *(curr_p->obj_p) );
+  while (curr_p != nullptr) {
+    lst.push_front(*(curr_p->obj_p));
     curr_p = curr_p->next_p;
   }
 
   // Step 3. Swap this list with temporary list
-  swap( lst );
+  swap(lst);
 }
 
 //------------------------------------------------------------------------
 // SListIObj::print
 //------------------------------------------------------------------------
 
-void SListIObj::print() const
-{
+void SListIObj::print() const {
   Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
+  while (curr_p != nullptr) {
     curr_p->obj_p->print();
     printf(" ");
     curr_p = curr_p->next_p;
   }
   printf("\n");
 }
-

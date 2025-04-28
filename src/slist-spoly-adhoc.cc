@@ -4,8 +4,7 @@
 
 #include "SList.h"
 
-int main( void )
-{
+int main(void) {
   // Construct a list using default constructor
 
   SList<int> list;
@@ -22,4 +21,3 @@ int main( void )
 
   return 0;
 }
-

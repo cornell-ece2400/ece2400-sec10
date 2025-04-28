@@ -8,14 +8,12 @@
 
 #include "types-dpoly.h"
 
-class SListIObj
-{
+class SListIObj {
   //----------------------------------------------------------------------
   // Constructor and destructor
   //----------------------------------------------------------------------
 
  public:
-
   SListIObj();
   ~SListIObj();
 
@@ -24,21 +22,19 @@ class SListIObj
   //----------------------------------------------------------------------
 
  public:
-
-  SListIObj( const SListIObj& lst );
-  void swap( SListIObj& lst );
-  SListIObj& operator=( const SListIObj& lst );
+  SListIObj(const SListIObj& lst);
+  void       swap(SListIObj& lst);
+  SListIObj& operator=(const SListIObj& lst);
 
   //----------------------------------------------------------------------
   // Member functions
   //----------------------------------------------------------------------
 
  public:
-
-  void      push_front( const IObject& v );
+  void      push_front(const IObject& v);
   int       size() const;
-  IObject*  at( int idx ) const;
-  IObject*& at( int idx );
+  IObject*  at(int idx) const;
+  IObject*& at(int idx);
   void      reverse_v1();
   void      reverse_v2();
   void      print() const;
@@ -48,16 +44,12 @@ class SListIObj
   //----------------------------------------------------------------------
 
  private:
-
-  struct Node
-  {
+  struct Node {
     IObject* obj_p;
     Node*    next_p;
   };
 
   Node* m_head_p;
-
 };
 
 #endif /* SLIST_IOBJ_H */
-

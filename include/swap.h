@@ -6,8 +6,8 @@
 #ifndef SWAP_H
 #define SWAP_H
 
-template < typename T >
-void swap( T& a, T& b );
+template <typename T>
+void swap(T& a, T& b);
 
 //------------------------------------------------------------------------
 // Include inline definitions
@@ -16,4 +16,3 @@ void swap( T& a, T& b );
 #include "swap.inl"
 
 #endif /* SWAP_H */
-

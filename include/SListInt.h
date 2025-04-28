@@ -6,14 +6,12 @@
 #ifndef SLIST_INT_H
 #define SLIST_INT_H
 
-class SListInt
-{
+class SListInt {
   //----------------------------------------------------------------------
   // Constructor and destructor
   //----------------------------------------------------------------------
 
  public:
-
   SListInt();
   ~SListInt();
 
@@ -22,21 +20,19 @@ class SListInt
   //----------------------------------------------------------------------
 
  public:
-
-  SListInt( const SListInt& lst );
-  void swap( SListInt& lst );
-  SListInt& operator=( const SListInt& lst );
+  SListInt(const SListInt& lst);
+  void      swap(SListInt& lst);
+  SListInt& operator=(const SListInt& lst);
 
   //----------------------------------------------------------------------
   // Member functions
   //----------------------------------------------------------------------
 
  public:
-
-  void push_front( int v );
+  void push_front(int v);
   int  size() const;
-  int  at( int idx ) const;
-  int& at( int idx );
+  int  at(int idx) const;
+  int& at(int idx);
   void reverse_v1();
   void reverse_v2();
   void print() const;
@@ -46,16 +42,12 @@ class SListInt
   //----------------------------------------------------------------------
 
  private:
-
-  struct Node
-  {
+  struct Node {
     int   value;
     Node* next_p;
   };
 
   Node* m_head_p;
-
 };
 
 #endif /* SLIST_INT_H */
-

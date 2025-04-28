@@ -11,8 +11,9 @@
 //   Date: Oct 13, 2020
 
 #include "ece2400-stdlib.h"
-#include <cstdlib>
+
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <sys/time.h>
 
@@ -49,9 +50,8 @@ namespace ece2400 {
 //------------------------------------------------------------------------
 // Return the distance between the two given integers.
 
-uint_t distance_int( int a, int b )
-{
-  if ( a > b )
+uint_t distance_int(int a, int b) {
+  if (a > b)
     return a - b;
   else
     return b - a;
@@ -62,13 +62,12 @@ uint_t distance_int( int a, int b )
 //------------------------------------------------------------------------
 // Prints the contents in an integer array.
 
-void print_array( int* a, size_t size )
-{
-  if ( size > 0 )
-    std::printf( "%d", a[0] );
-  for ( size_t i = 1; i < size; i++ )
-    std::printf( ", %d", a[i] );
-  std::printf( "\n" );
+void print_array(int* a, size_t size) {
+  if (size > 0)
+    std::printf("%d", a[0]);
+  for (size_t i = 1; i < size; i++)
+    std::printf(", %d", a[i]);
+  std::printf("\n");
 }
 
 //------------------------------------------------------------------------
@@ -76,14 +75,13 @@ void print_array( int* a, size_t size )
 //------------------------------------------------------------------------
 // Comparison function for qsort.
 
-int less_than( const void* a_p, const void* b_p )
-{
-  int left  = *(const int*)a_p;
-  int right = *(const int*)b_p;
+int less_than(const void* a_p, const void* b_p) {
+  int left  = *(const int*) a_p;
+  int right = *(const int*) b_p;
 
-  if ( left > 0 && right < 0 )
+  if (left > 0 && right < 0)
     return 1;
-  else if ( left < 0 && right > 0 )
+  else if (left < 0 && right > 0)
     return -1;
   else
     return left - right;
@@ -95,17 +93,15 @@ int less_than( const void* a_p, const void* b_p )
 // A reference sorting function that sorts an array of integer in
 // ascending order.
 
-void sort( int* a, size_t size )
-{
-  std::qsort( (void*)a, size, sizeof( int ), less_than );
+void sort(int* a, size_t size) {
+  std::qsort((void*) a, size, sizeof(int), less_than);
 }
 
 //------------------------------------------------------------------------
 // mem_reset
 //------------------------------------------------------------------------
 
-void mem_reset()
-{
+void mem_reset() {
   mem_usage  = 0;
   peak_usage = 0;
 }
@@ -116,8 +112,7 @@ void mem_reset()
 // Return the amount of heap space that has been allocated so far in a
 // program.
 
-size_t mem_get_usage()
-{
+size_t mem_get_usage() {
   return mem_usage;
 }
 
@@ -126,8 +121,7 @@ size_t mem_get_usage()
 //------------------------------------------------------------------------
 // Return the peak heap usage.
 
-size_t mem_get_peak()
-{
+size_t mem_get_peak() {
   return peak_usage;
 }
 
@@ -136,9 +130,8 @@ size_t mem_get_peak()
 //------------------------------------------------------------------------
 // Resets the timer.
 
-void timer_reset()
-{
-  gettimeofday( &start_time, NULL );
+void timer_reset() {
+  gettimeofday(&start_time, NULL);
 }
 
 //------------------------------------------------------------------------
@@ -146,15 +139,14 @@ void timer_reset()
 //------------------------------------------------------------------------
 //  Return the elapased time in seconds.
 
-double timer_get_elapsed()
-{
-  gettimeofday( &end_time, NULL );
-  double elapsed_time = ( end_time.tv_sec - start_time.tv_sec ) +
-                        ( end_time.tv_usec - start_time.tv_usec ) / MILLION;
+double timer_get_elapsed() {
+  gettimeofday(&end_time, NULL);
+  double elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
+                        (end_time.tv_usec - start_time.tv_usec) / MILLION;
   return elapsed_time;
 }
 
-}
+}  // namespace ece2400
 
 //************************************************************************
 // DO NOT DIRECTLY CALL THE FUNCTIONS BELOW!
@@ -167,13 +159,12 @@ double timer_get_elapsed()
 //------------------------------------------------------------------------
 // Return file name extracted from a __FILE__ string.
 
-const char* __ece2400_get_file_name( const char* full_path )
-{
-  int len = strlen( full_path ), start_pos = 0;
+const char* __ece2400_get_file_name(const char* full_path) {
+  int len = strlen(full_path), start_pos = 0;
 
-  for ( int i = len-1; i >= 0; i-- )
-    if ( full_path[i] == '/' ) {
-      start_pos = i+1;
+  for (int i = len - 1; i >= 0; i--)
+    if (full_path[i] == '/') {
+      start_pos = i + 1;
       break;
     }
 
@@ -184,11 +175,12 @@ const char* __ece2400_get_file_name( const char* full_path )
 // __ece2400_fail
 //------------------------------------------------------------------------
 
-void __ece2400_fail( const char* file, int lineno, char *expr )
-{
-  file = __ece2400_get_file_name( file );
-  if ( __n < 0 ) std::printf( "\n" );
-  std::printf(" - [ " RED "FAILED" RESET " ] File %s:%d:  %s\n", file, lineno, expr );
+void __ece2400_fail(const char* file, int lineno, char* expr) {
+  file = __ece2400_get_file_name(file);
+  if (__n < 0)
+    std::printf("\n");
+  std::printf(" - [ " RED "FAILED" RESET " ] File %s:%d:  %s\n", file, lineno,
+              expr);
   __failed = 1;
 }
 
@@ -196,17 +188,20 @@ void __ece2400_fail( const char* file, int lineno, char *expr )
 // __ece2400_check_and_print_uniop
 //------------------------------------------------------------------------
 
-void __ece2400_check_and_print_uniop( const char* file, int lineno, const char* expr )
-{
-  file = __ece2400_get_file_name( file );
-  if ( __failure_condition ) {
-    if ( __n < 0 ) std::printf( "\n" );
-    std::printf(" - [ " RED "FAILED" RESET " ] File %s:%d:  %s (%d)\n", file, lineno, expr, __int_expr0 );
+void __ece2400_check_and_print_uniop(const char* file, int lineno,
+                                     const char* expr) {
+  file = __ece2400_get_file_name(file);
+  if (__failure_condition) {
+    if (__n < 0)
+      std::printf("\n");
+    std::printf(" - [ " RED "FAILED" RESET " ] File %s:%d:  %s (%d)\n", file,
+                lineno, expr, __int_expr0);
     __failed = 1;
-  } else if ( __n > 0 ) {
-    std::printf(" - [ " GREEN "passed" RESET " ] File %s:%d:  %s (%d)\n", file, lineno, expr, __int_expr0 );
-  } else if ( __n < 0 ) {
-    std::printf( GREEN "." RESET );
+  } else if (__n > 0) {
+    std::printf(" - [ " GREEN "passed" RESET " ] File %s:%d:  %s (%d)\n", file,
+                lineno, expr, __int_expr0);
+  } else if (__n < 0) {
+    std::printf(GREEN "." RESET);
   }
 }
 
@@ -214,19 +209,22 @@ void __ece2400_check_and_print_uniop( const char* file, int lineno, const char* 
 // __ece2400_check_and_print_int_binop
 //------------------------------------------------------------------------
 
-void __ece2400_check_and_print_int_binop( const char* file, int lineno, const char* expr1, const char* expr2 )
-{
-  file = __ece2400_get_file_name( file );
-  if ( __failure_condition ) {
-    if ( __n < 0 ) std::printf( "\n" );
-    std::printf(" - [ " RED "FAILED" RESET " ] File %s:%d:  %s != %s (%d != %d)\n",
-           file, lineno, expr1, expr2, __int_expr0, __int_expr1 );
+void __ece2400_check_and_print_int_binop(const char* file, int lineno,
+                                         const char* expr1, const char* expr2) {
+  file = __ece2400_get_file_name(file);
+  if (__failure_condition) {
+    if (__n < 0)
+      std::printf("\n");
+    std::printf(" - [ " RED "FAILED" RESET
+                " ] File %s:%d:  %s != %s (%d != %d)\n",
+                file, lineno, expr1, expr2, __int_expr0, __int_expr1);
     __failed = 1;
-  } else if ( __n > 0 ) {
-    std::printf(" - [ " GREEN "passed" RESET " ] File %s:%d:  %s == %s (%d == %d)\n",
-           file, lineno, expr1, expr2, __int_expr0, __int_expr1 );
-  } else if ( __n < 0 ) {
-    std::printf( GREEN "." RESET );
+  } else if (__n > 0) {
+    std::printf(" - [ " GREEN "passed" RESET
+                " ] File %s:%d:  %s == %s (%d == %d)\n",
+                file, lineno, expr1, expr2, __int_expr0, __int_expr1);
+  } else if (__n < 0) {
+    std::printf(GREEN "." RESET);
   }
 }
 
@@ -234,18 +232,22 @@ void __ece2400_check_and_print_int_binop( const char* file, int lineno, const ch
 // __ece2400_check_and_print_double_binop
 //------------------------------------------------------------------------
 
-void __ece2400_check_and_print_double_binop( const char* file, int lineno, const char* expr1, const char* expr2 )
-{
-  file = __ece2400_get_file_name( file );
-  if ( __failure_condition ) {
-    if ( __n < 0 ) std::printf( "\n" );
-    std::printf(" - [ " RED "FAILED" RESET " ] File %s:%d:  %s != %s (%.10e != %.10e)\n",
-           file, lineno, expr1, expr2, __double_expr0, __double_expr1 );
+void __ece2400_check_and_print_double_binop(const char* file, int lineno,
+                                            const char* expr1,
+                                            const char* expr2) {
+  file = __ece2400_get_file_name(file);
+  if (__failure_condition) {
+    if (__n < 0)
+      std::printf("\n");
+    std::printf(" - [ " RED "FAILED" RESET
+                " ] File %s:%d:  %s != %s (%.10e != %.10e)\n",
+                file, lineno, expr1, expr2, __double_expr0, __double_expr1);
     __failed = 1;
-  } else if ( __n > 0 ) {
-    std::printf(" - [ " GREEN "passed" RESET " ] File %s:%d:  %s == %s (%.10e == %.10e)\n",
-           file, lineno, expr1, expr2, __double_expr0, __double_expr1 );
-  } else if ( __n < 0 ) {
-    std::printf( GREEN "." RESET );
+  } else if (__n > 0) {
+    std::printf(" - [ " GREEN "passed" RESET
+                " ] File %s:%d:  %s == %s (%.10e == %.10e)\n",
+                file, lineno, expr1, expr2, __double_expr0, __double_expr1);
+  } else if (__n < 0) {
+    std::printf(GREEN "." RESET);
   }
 }
