@@ -1,40 +1,43 @@
-#=========================================================================
+# =========================================================================
 # slist-plot-all.py
-#=========================================================================
+# =========================================================================
 # Simple python script for plotting all of the results on a single plot.
 #
 # Author : Christopher Batten
 # Date   : October 14, 2021
 
-def plot_data( ax, result_filename, marker, label ):
 
-  # data arrays
+def plot_data(ax, result_filename, marker, label):
 
-  n = []
-  t = []
+    # data arrays
 
-  # Make sure results file exists
+    n = []
+    t = []
 
-  if not os.path.exists(result_filename):
-    return
+    # Make sure results file exists
 
-  # Read data from results file
+    if not os.path.exists(result_filename):
+        return
 
-  with open(result_filename) as f:
-    for line in f:
-      if "Fill and reverse with size" in line:
-        n.append( float(line.split()[5]) )
-      if "Average: elapsed time" in line:
-        t.append( float(line.split()[4]) )
+    # Read data from results file
 
-  # Plot the data
+    with open(result_filename) as f:
+        for line in f:
+            if "Fill and reverse with size" in line:
+                n.append(float(line.split()[5]))
+            if "Average: elapsed time" in line:
+                t.append(float(line.split()[4]))
 
-  ax.plot( n, t, marker=marker, label=label )
+    # Plot the data
+
+    ax.plot(n, t, marker=marker, label=label)
+
 
 # Set the backend to PDF to avoid using the GUI
 
 import matplotlib
-matplotlib.use('PDF')
+
+matplotlib.use("PDF")
 
 # Import matplotlib for plotting and numpy for data analysis
 
@@ -51,18 +54,17 @@ fig, ax = plt.subplots()
 
 # Plot the data
 
-plot_data( ax, "slist-int-reverse-v1-eval.txt",   'o', "SListInt::reverse_v1"   )
-plot_data( ax, "slist-int-reverse-v2-eval.txt",   '^', "SListInt::reverse_v2"   )
-plot_data( ax, "slist-dpoly-reverse-v1-eval.txt", 's', "SListIObj::reverse_v1"  )
-plot_data( ax, "slist-dpoly-reverse-v2-eval.txt", 'x', "SListIObj::reverse_v2"  )
-plot_data( ax, "slist-spoly-reverse-v1-eval.txt", 'o', "SList<int>::reverse_v1" )
-plot_data( ax, "slist-spoly-reverse-v2-eval.txt", '^', "SList<int>::reverse_v2" )
+plot_data(ax, "slist-int-reverse-v1-eval.txt", "o", "SListInt::reverse_v1")
+plot_data(ax, "slist-int-reverse-v2-eval.txt", "^", "SListInt::reverse_v2")
+plot_data(ax, "slist-dpoly-reverse-v1-eval.txt", "s", "SListIObj::reverse_v1")
+plot_data(ax, "slist-dpoly-reverse-v2-eval.txt", "x", "SListIObj::reverse_v2")
+plot_data(ax, "slist-spoly-reverse-v1-eval.txt", "o", "SList<int>::reverse_v1")
+plot_data(ax, "slist-spoly-reverse-v2-eval.txt", "^", "SList<int>::reverse_v2")
 
 # Add some labels, grid, an save to a PDF
 
-ax.set( xlabel="Input Array Size", ylabel="Measured Execution Time (s)" )
+ax.set(xlabel="Input Array Size", ylabel="Measured Execution Time (s)")
 ax.grid()
 ax.legend()
 
-fig.savefig( "slist-plot-all.pdf", bbox_inches='tight' )
-
+fig.savefig("slist-plot-all.pdf", bbox_inches="tight")
