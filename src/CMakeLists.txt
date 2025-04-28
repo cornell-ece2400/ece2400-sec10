@@ -15,6 +15,7 @@ endfunction()
 
 add_pa_exec(slist-dpoly-adhoc slist-dpoly-adhoc.cc)
 add_pa_exec(slist-int-adhoc slist-int-adhoc.cc)
+add_pa_exec(slist-spoly-adhoc slist-spoly-adhoc.cc)
 
 function(add_pa_test bin srcs)
   add_pa_exec(${bin} ${srcs})
